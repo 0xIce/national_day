@@ -1,0 +1,246 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+.app {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* 国旗容器 */
+.flag-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000;
+}
+
+/* 旗杆 */
+.flagpole {
+  position: absolute;
+  left: calc(50% - 400px); /* 回到原始位置，与国旗左边对齐 */
+  width: 10px;
+  height: 500px;
+  background-color: #666;
+  border-radius: 5px 5px 0 0;
+}
+
+/* 国旗 */
+/* 国旗 - 左边一半固定，右边一半做动效 */
+/* 国旗 - 真实风吹效果 */
+.flag {
+  position: relative;
+  width: 800px;
+  height: 500px;
+  background-color: #DE2910;
+  overflow: hidden;
+  transform-origin: left center;
+  animation: flagWave 4s ease-in-out infinite;
+  margin-left: 10px; /* 国旗向右移动10px，与旗杆右边拼接 */
+  /* 添加左边扩展，防止动画时出现黑色间隙 */
+  transform: translateX(-20px);
+  width: 820px; /* 增加宽度补偿偏移 */
+}
+
+/* 旗帜波浪效果 - 使用transform实现自然风吹 */
+@keyframes flagWave {
+  0%, 100% {
+    transform: translateX(-20px) skewX(0deg) scaleX(1);
+  }
+  25% {
+    transform: translateX(-20px) skewX(3deg) scaleX(1.02);
+  }
+  50% {
+    transform: translateX(-20px) skewX(0deg) scaleX(1);
+  }
+  75% {
+    transform: translateX(-20px) skewX(-2deg) scaleX(0.98);
+  }
+}
+
+/* 星星闪烁效果 */
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* 应用星星闪烁效果 */
+.big-star, .star {
+  animation: twinkle 5s ease-in-out infinite;
+}
+
+/* 旗帜飘扬层 - 真实吹风效果 */
+.flag-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #DE2910;
+  transform-origin: left center;
+  mask: linear-gradient(to right, 
+    transparent 0%, 
+    transparent 20%, 
+    black 20%, 
+    black 100%
+  );
+  -webkit-mask: linear-gradient(to right, 
+    transparent 0%, 
+    transparent 20%, 
+    black 20%, 
+    black 100%
+  );
+  z-index: 5; /* 设置层级，确保在星星下面 */
+}
+
+/* 多层次波浪效果 - 真实吹风 */
+.flag-layer:nth-child(1) {
+  animation: layerWave1 4s ease-in-out infinite;
+  opacity: 0.9;
+}
+
+.flag-layer:nth-child(2) {
+  animation: layerWave2 4s ease-in-out infinite;
+  animation-delay: 0.3s;
+  opacity: 0.7;
+}
+
+.flag-layer:nth-child(3) {
+  animation: layerWave3 4s ease-in-out infinite;
+  animation-delay: 0.6s;
+  opacity: 0.5;
+}
+
+/* 波浪层动画 - 真实吹风效果 */
+@keyframes layerWave1 {
+  0%, 100% {
+    transform: skewX(0deg) scaleX(1);
+  }
+  25% {
+    transform: skewX(8deg) scaleX(1.1);
+  }
+  50% {
+    transform: skewX(0deg) scaleX(1);
+  }
+  75% {
+    transform: skewX(-6deg) scaleX(0.9);
+  }
+}
+
+@keyframes layerWave2 {
+  0%, 100% {
+    transform: skewX(0deg) scaleX(1);
+  }
+  25% {
+    transform: skewX(12deg) scaleX(1.15);
+  }
+  50% {
+    transform: skewX(0deg) scaleX(1);
+  }
+  75% {
+    transform: skewX(-8deg) scaleX(0.85);
+  }
+}
+
+@keyframes layerWave3 {
+  0%, 100% {
+    transform: skewX(0deg) scaleX(1);
+  }
+  25% {
+    transform: skewX(15deg) scaleX(1.2);
+  }
+  50% {
+    transform: skewX(0deg) scaleX(1);
+  }
+  75% {
+    transform: skewX(-10deg) scaleX(0.8);
+  }
+}
+
+/* 星星 */
+.stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 20; /* 提高星星层级，确保在最上层 */
+}
+
+.big-star {
+  position: absolute;
+  top: 80px;
+  left: 80px;
+  width: 80px;
+  height: 80px;
+  background-color: #FFDE00;
+  clip-path: polygon(
+    50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%
+  );
+}
+
+.small-stars {
+  position: absolute;
+  top: 60px;
+  left: 200px;
+  width: 200px;
+  height: 200px;
+}
+
+.star {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background-color: #FFDE00;
+  clip-path: polygon(
+    50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%
+  );
+}
+
+.star1 {
+  top: 0;
+  left: 0;
+  transform: rotate(30deg);
+}
+
+.star2 {
+  top: 40px;
+  left: 60px;
+  transform: rotate(50deg);
+}
+
+.star3 {
+  top: 100px;
+  left: 60px;
+  transform: rotate(70deg);
+}
+
+.star4 {
+  top: 140px;
+  left: 0;
+  transform: rotate(90deg);
+}
