@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import './App.css'
 
 function App() {
   const [isScrolling, setIsScrolling] = useState(true)
-  const [showFlag, setShowFlag] = useState(false)
+  const navigate = useNavigate()
+  const location = useLocation()
   const codeRef = useRef(null)
   
   // 生成随机代码行
@@ -25,7 +27,7 @@ function App() {
     
     return randomChoice(codeTypes)
   }
-  
+
   // 生成代码矩阵
   const generateCodeMatrix = (rows) => {
     return Array(rows).fill().map(() => generateRandomCode())
@@ -46,22 +48,26 @@ function App() {
         scrollPosition += scrollSpeed
         codeElement.scrollTop = scrollPosition
         
-        // 滚动一段时间后显示国旗 - 减小阈值
-        if (scrollPosition > 2000 && !showFlag) {
+        // 根据当前路径决定导航目标
+        if (scrollPosition > 2000) {
           setIsScrolling(false)
           setTimeout(() => {
-            setShowFlag(true)
+            if (location.pathname === '/word') {
+              navigate('/word')
+            } else {
+              navigate('/flag')
+            }
           }, 300) // 缩短过渡延迟
         }
       }
     }, 15) // 减小间隔时间，使滚动更流畅
     
     return () => clearInterval(scrollInterval)
-  }, [isScrolling, showFlag])
+  }, [isScrolling, navigate, location.pathname])
   
   return (
     <div className="app">
-      <div className={`terminal ${showFlag ? 'hidden' : ''}`}>
+      <div className="terminal">
         <div className="terminal-header">
           <div className="terminal-buttons">
             <div className="terminal-button red"></div>
@@ -77,26 +83,6 @@ function App() {
               <span className="line-content">{line}</span>
             </div>
           ))}
-        </div>
-      </div>
-      
-      <div className={`flag-container ${showFlag ? 'visible' : ''}`}>
-        <div className="flagpole"></div>
-        <div className="flag">
-          {/* 旗帜飘扬层 - 从左到右的水平波浪效果 */}
-          <div className="flag-layer"></div>
-          <div className="flag-layer"></div>
-          <div className="flag-layer"></div>
-          
-          <div className="stars">
-            <div className="big-star"></div>
-            <div className="small-stars">
-              <div className="star star1"></div>
-              <div className="star star2"></div>
-              <div className="star star3"></div>
-              <div className="star star4"></div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

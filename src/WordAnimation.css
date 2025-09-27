@@ -1,0 +1,203 @@
+/* 文字动画容器 */
+.word-animation-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.word-animation-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  animation: particleFloat 20s ease-in-out infinite;
+}
+
+/* 文字网格容器 */
+.word-grid {
+  display: flex;
+  gap: 60px;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 1s ease;
+}
+
+.word-grid.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.word-grid.hidden {
+  opacity: 0;
+  transform: translateY(50px);
+  pointer-events: none;
+}
+
+/* 单个字符容器 */
+.character-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-radius: 15px;
+  transition: all 0.5s ease;
+  min-width: 120px;
+  min-height: 120px;
+}
+
+.character-text {
+  font-size: 80px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+  animation: textGlow 3s ease-in-out infinite;
+}
+
+.character-text:nth-child(1) { animation-delay: 0s; }
+.character-text:nth-child(2) { animation-delay: 0.5s; }
+.character-text:nth-child(3) { animation-delay: 1s; }
+.character-text:nth-child(4) { animation-delay: 1.5s; }
+
+@keyframes textGlow {
+  0%, 100% {
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                 0 0 30px rgba(255, 107, 107, 0.6),
+                 0 0 40px rgba(255, 167, 38, 0.4);
+    transform: scale(1);
+  }
+  50% {
+    text-shadow: 0 0 30px rgba(255, 255, 255, 1),
+                 0 0 50px rgba(255, 107, 107, 0.8),
+                 0 0 60px rgba(255, 167, 38, 0.6);
+    transform: scale(1.05);
+  }
+}
+
+/* 代码滚动效果 */
+.code-scroll-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 200vh;
+  pointer-events: auto;
+  z-index: 1;
+  opacity: 1;
+  transition: opacity 0.8s ease-in-out;
+}
+
+.code-scroll-container.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.code-scroll-container.visible {
+  opacity: 1;
+}
+
+.code-scroll {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 800px;
+  font-family: 'Courier New', monospace;
+  font-size: 16px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.3);
+  transition: transform 0.1s ease-out;
+}
+
+.code-line {
+  margin: 5px 0;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.code-line:hover {
+  opacity: 1;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.code-text {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+/* 代码语法高亮 */
+.code-line:nth-child(1) { color: rgba(107, 255, 107, 0.6); } /* 注释 */
+.code-line:nth-child(2) { color: rgba(255, 107, 107, 0.6); } /* function */
+.code-line:nth-child(3) { color: rgba(107, 255, 255, 0.6); } /* const */
+.code-line:nth-child(4) { color: rgba(255, 255, 107, 0.6); } /* const */
+.code-line:nth-child(5) { color: rgba(255, 255, 107, 0.6); } /* const */
+.code-line:nth-child(6) { color: rgba(107, 255, 107, 0.6); } /* return */
+.code-line:nth-child(8) { color: rgba(107, 255, 107, 0.6); } /* 注释 */
+.code-line:nth-child(9) { color: rgba(107, 255, 255, 0.6); } /* const */
+.code-line:nth-child(16) { color: rgba(107, 255, 107, 0.6); } /* 注释 */
+.code-line:nth-child(17) { color: rgba(107, 255, 255, 0.6); } /* const */
+.code-line:nth-child(18) { color: rgba(255, 107, 255, 0.6); } /* console.log */
+
+@keyframes particleFloat {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(10px, 10px) rotate(90deg);
+  }
+  50% {
+    transform: translate(0, 20px) rotate(180deg);
+  }
+  75% {
+    transform: translate(-10px, 10px) rotate(270deg);
+  }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .word-grid {
+    gap: 30px;
+    flex-direction: column;
+  }
+  
+  .pixel {
+    width: 15px;
+    height: 15px;
+  }
+  
+  .character-label {
+    font-size: 36px;
+  }
+}
+
+/* 背景粒子效果 */
+.word-animation-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 217, 61, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 80%, rgba(107, 207, 127, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 60% 30%, rgba(77, 150, 255, 0.1) 0%, transparent 50%);
+  animation: backgroundShift 10s ease-in-out infinite alternate;
+}
+
+@keyframes backgroundShift {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+  100% {
+    transform: translateX(-20px) translateY(-20px);
+  }
+}
