@@ -103,6 +103,8 @@ function FlagAnimation() {
           </div>
         </div>
       )}
+      {/* 底部标签 */}
+      <div className="footer-label">@奇技课堂</div>
     </div>
   )
 }

@@ -448,3 +448,28 @@ body, html {
   background: linear-gradient(135deg, #ffff00 0%, #ffd700 100%);
   box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6);
 }
+
+/* 底部标签样式 */
+.footer-label {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  font-family: 'Courier New', monospace;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  z-index: 1000;
+  animation: labelGlow 3s ease-in-out infinite;
+}
+
+@keyframes labelGlow {
+  0%, 100% {
+    opacity: 0.7;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    opacity: 1;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+  }
+}
