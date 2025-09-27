@@ -8,6 +8,12 @@ function App() {
   const location = useLocation()
   const codeRef = useRef(null)
   
+  // 检查是否是根路径
+  const isRootPath = location.pathname === '/'
+  
+  // 根据当前路径确定目标页面
+   const targetPath = location.pathname === '/word' ? '/word-animation' : '/flag'
+  
   // 生成随机代码行
   const generateRandomCode = () => {
     const keywords = ['const', 'let', 'function', 'return', 'if', 'else', 'for', 'while', 'class', 'import']
@@ -36,7 +42,9 @@ function App() {
   const codeLines = generateCodeMatrix(1000)
   
   useEffect(() => {
-    // 代码滚动效果
+    // 只在非根路径时执行代码滚动效果
+    if (isRootPath) return
+    
     const codeElement = codeRef.current
     if (!codeElement) return
     
@@ -48,43 +56,61 @@ function App() {
         scrollPosition += scrollSpeed
         codeElement.scrollTop = scrollPosition
         
-        // 根据当前路径决定导航目标
-        if (scrollPosition > 2000) {
-          setIsScrolling(false)
-          setTimeout(() => {
-            if (location.pathname === '/word') {
-              navigate('/word')
-            } else {
-              navigate('/flag')
-            }
-          }, 300) // 缩短过渡延迟
-        }
+        // 滚动到一定位置后导航到目标页面
+          if (scrollPosition > 2000) {
+            setIsScrolling(false)
+            setTimeout(() => {
+              navigate(targetPath)
+            }, 300) // 缩短过渡延迟
+          }
       }
     }, 15) // 减小间隔时间，使滚动更流畅
     
     return () => clearInterval(scrollInterval)
-  }, [isScrolling, navigate, location.pathname])
+  }, [isScrolling, navigate, targetPath, isRootPath])
   
   return (
     <div className="app">
-      <div className="terminal">
-        <div className="terminal-header">
-          <div className="terminal-buttons">
-            <div className="terminal-button red"></div>
-            <div className="terminal-button yellow"></div>
-            <div className="terminal-button green"></div>
+      {isRootPath ? (
+        // 根路径显示按钮选择界面
+        <div className="selection-screen">
+          <div className="selection-title">国旗动画系统</div>
+          <div className="button-container">
+            <button 
+              className="selection-button flag-button"
+              onClick={() => navigate('/flag')}
+            >
+              国旗动画
+            </button>
+            <button 
+              className="selection-button word-button"
+              onClick={() => navigate('/word')}
+            >
+              祖国万岁
+            </button>
           </div>
-          <div className="terminal-title">国旗动画系统</div>
         </div>
-        <div className="terminal-content" ref={codeRef}>
-          {codeLines.map((line, index) => (
-            <div key={index} className="code-line">
-              <span className="line-number">{index + 1}</span>
-              <span className="line-content">{line}</span>
+      ) : (
+        // 非根路径显示代码滚动
+        <div className="terminal">
+          <div className="terminal-header">
+            <div className="terminal-buttons">
+              <div className="terminal-button red"></div>
+              <div className="terminal-button yellow"></div>
+              <div className="terminal-button green"></div>
             </div>
-          ))}
+            <div className="terminal-title">国旗动画系统</div>
+          </div>
+          <div className="terminal-content" ref={codeRef}>
+            {codeLines.map((line, index) => (
+              <div key={index} className="code-line">
+                <span className="line-number">{index + 1}</span>
+                <span className="line-content">{line}</span>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

@@ -332,3 +332,119 @@ body, html {
   left: 0;
   transform: rotate(90deg);
 }
+
+/* 按钮选择界面样式 */
+.selection-screen {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.selection-screen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 20% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(220, 20, 60, 0.1) 0%, transparent 50%);
+  animation: backgroundPulse 8s ease-in-out infinite;
+}
+
+@keyframes backgroundPulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.selection-title {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  margin-bottom: 3rem;
+  z-index: 1;
+  position: relative;
+  animation: titleGlow 3s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+  0%, 100% {
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+  }
+}
+
+.button-container {
+  display: flex;
+  gap: 2rem;
+  z-index: 1;
+  position: relative;
+}
+
+.selection-button {
+  padding: 1.5rem 3rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  color: white;
+  min-width: 200px;
+}
+
+.selection-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.selection-button:hover::before {
+  left: 100%;
+}
+
+.selection-button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.flag-button {
+  background: linear-gradient(135deg, #dc143c 0%, #b22222 100%);
+  box-shadow: 0 5px 15px rgba(220, 20, 60, 0.4);
+}
+
+.flag-button:hover {
+  background: linear-gradient(135deg, #ff0000 0%, #dc143c 100%);
+  box-shadow: 0 8px 25px rgba(220, 20, 60, 0.6);
+}
+
+.word-button {
+  background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+  box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+}
+
+.word-button:hover {
+  background: linear-gradient(135deg, #ffff00 0%, #ffd700 100%);
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.6);
+}
